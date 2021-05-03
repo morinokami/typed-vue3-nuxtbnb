@@ -1,16 +1,18 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'typed-vue3-nuxtbnb',
+    titleTemplate: 'Mastering Nuxt: %s',
     htmlAttrs: {
       lang: 'en',
     },
+    bodyAttrs: {
+      class: ['my-style'],
+    },
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      {
+        charset: 'utf-8',
+      },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -23,7 +25,11 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: ['@nuxtjs/composition-api/module'],
+  buildModules: [
+    // https://go.nuxtjs.dev/typescript
+    '@nuxt/typescript-build',
+    '@nuxtjs/composition-api/module',
+  ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [],
@@ -34,5 +40,9 @@ export default {
     babel: {
       plugins: [['@babel/plugin-proposal-private-methods', { loose: true }]],
     },
+  },
+
+  router: {
+    prefetchLinks: false,
   },
 }
