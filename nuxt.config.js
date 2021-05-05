@@ -19,7 +19,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/maps.client'],
+  plugins: ['~/plugins/maps.client', '~/plugins/dataApi'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -48,5 +48,7 @@ export default {
 
   publicRuntimeConfig: {
     googleApiKey: process.env.GOOGLE_API_KEY,
+    algoliaAppId: process.env.ALGOLIA_APP_ID,
+    algoliaAppKey: process.env.ALGOLIA_APP_KEY,
   },
 }

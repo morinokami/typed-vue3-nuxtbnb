@@ -32,3 +32,25 @@ export type HomeType = {
     lng: number
   }
 }
+
+export type ReviewType = {
+  objectID: string
+  homeId: string
+  reviewer: {
+    image: string
+    name: string
+  }
+  rating: number
+  date: string
+  comment: string
+}
+
+export type UserType = {
+  objectID: string
+  joined: string
+  name: string
+  image: string
+  reviewCount: number
+  description: string
+  homeId: string[]
+}
