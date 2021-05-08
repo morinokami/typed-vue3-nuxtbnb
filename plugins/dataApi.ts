@@ -13,6 +13,7 @@ type GetReviewsByHomeIdResponseType = {
   hits: ReviewType[]
 }
 type GetUserByHomeIdResponseType = { hits: UserType[] }
+type GetHomesByLocationResponseType = { hits: HomeType[] }
 
 declare module '@nuxt/types' {
   interface Context {
@@ -26,6 +27,11 @@ declare module '@nuxt/types' {
       getUserByHomeId: (
         homeId: string
       ) => Promise<AlgoliaResponseType<GetUserByHomeIdResponseType>>
+      getHomesByLocation: (
+        lat: number,
+        lng: number,
+        radiusInMeters?: number
+      ) => Promise<AlgoliaResponseType<GetHomesByLocationResponseType>>
     }
   }
 }
@@ -111,9 +117,33 @@ export default defineNuxtPlugin((context, inject) => {
     }
   }
 
+  const getHomesByLocation = async (
+    lat: number,
+    lng: number,
+    radiusInMeters = 1500
+  ) => {
+    try {
+      return unwrap<GetUserByHomeIdResponseType>(
+        await fetch(`https://${appId}-dsn.algolia.net/1/indexes/homes/query`, {
+          headers,
+          method: 'POST',
+          body: JSON.stringify({
+            aroundLatLng: `${lat},${lng}`,
+            aroundRadius: radiusInMeters,
+            hitsPerPage: 10,
+            attributesToHighlight: [],
+          }),
+        })
+      )
+    } catch (error) {
+      return getErrprResponse(error)
+    }
+  }
+
   inject('dataApi', {
     getHome,
     getReviewsByHomeId,
     getUserByHomeId,
+    getHomesByLocation,
   })
 })
