@@ -8,7 +8,7 @@ declare module '@nuxt/types' {
         canvas: HTMLElement,
         lat: number,
         lng: number,
-        markers?: MarkerType[]
+        markers?: MarkerType[] | null
       ) => void
       makeAutoComplete: (input: HTMLInputElement) => void
     }
@@ -59,7 +59,7 @@ export default defineNuxtPlugin((context, inject) => {
     canvas: HTMLElement,
     lat: number,
     lng: number,
-    markers?: MarkerType[]
+    markers?: MarkerType[] | null
   ) => {
     if (!isLoaded) {
       waiting.push({

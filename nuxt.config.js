@@ -16,7 +16,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: ['~/assets/sass/app.scss'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: ['~/plugins/maps.client', '~/plugins/dataApi'],
@@ -40,6 +40,10 @@ export default {
     // https://github.com/nuxt/nuxt.js/issues/9224
     babel: {
       plugins: [['@babel/plugin-proposal-private-methods', { loose: true }]],
+    },
+    extractCSS: true,
+    loaders: {
+      limit: 0,
     },
   },
 

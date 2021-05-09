@@ -1,21 +1,25 @@
 <template>
-  <div>
-    Results for {{ label }}<br />
-    <div ref="mapRef" style="height: 800px; width: 800px; float: right"></div>
-    <div v-if="homes && homes.length > 0">
-      <nuxt-link
-        v-for="home in homes"
-        :key="home.objectID"
-        :to="`/home/${home.objectID}`"
-      >
-        <home-row
-          :home="home"
-          @mouseover.native="highlightMarker(home.objectID, true)"
-          @mouseout.native="highlightMarker(home.objectID, false)"
-        />
-      </nuxt-link>
+  <div class="app-search-results-page">
+    <div class="app-search-results">
+      <div v-if="homes" class="app-search-results-listing">
+        <h2 class="app-title">Stays in {{ label }}</h2>
+        <nuxt-link
+          v-for="home in homes"
+          :key="home.objectID"
+          :to="`/home/${home.objectID}`"
+        >
+          <home-row
+            class="app-house"
+            :home="home"
+            @mouseover.native="highlightMarker(home.objectID, true)"
+            @mouseout.native="highlightMarker(home.objectID, false)"
+          />
+        </nuxt-link>
+      </div>
+      <div class="app-search-results-map">
+        <div ref="map" class="app-map"></div>
+      </div>
     </div>
-    <div v-else>No results found</div>
   </div>
 </template>
 
@@ -46,7 +50,7 @@ export default defineComponent({
       title: `Home around ${label.value}`,
     }))
 
-    const mapRef = ref<HTMLElement | null>(null)
+    const map = ref<HTMLElement | null>(null)
     const getHomes = async () => {
       const data = await $dataApi.getHomesByLocation(
         Number(lat.value),
@@ -61,18 +65,21 @@ export default defineComponent({
         return data.json.hits
       }
     }
-    const getHomeMarkers = () =>
-      homes.value?.map((home) => ({
-        ...home._geoloc,
-        pricePerNight: home.pricePerNight,
-        id: home.objectID,
-      }))
+    const getHomeMarkers = () => {
+      return homes.value?.length === 0
+        ? null
+        : homes.value?.map((home) => ({
+            ...home._geoloc,
+            pricePerNight: home.pricePerNight,
+            id: home.objectID,
+          }))
+    }
     const updateMap = async () => {
       const getHomesResponse = await getHomes()
-      if (getHomesResponse && mapRef.value) {
+      if (getHomesResponse && map.value) {
         homes.value = getHomesResponse
         $maps.showMap(
-          mapRef.value,
+          map.value,
           Number(lat.value),
           Number(lng.value),
           getHomeMarkers()
@@ -93,7 +100,7 @@ export default defineComponent({
         ?.classList.toggle('marker-highlight', isHighlighted)
     }
 
-    return { homes, label, lat, lng, mapRef, highlightMarker }
+    return { homes, label, lat, lng, map, highlightMarker }
   },
   head: {},
 })
