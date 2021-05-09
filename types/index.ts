@@ -54,3 +54,10 @@ export type UserType = {
   description: string
   homeId: string[]
 }
+
+export type MarkerType = {
+  id: string
+  lat: number
+  lng: number
+  pricePerNight: number
+}
