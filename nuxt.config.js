@@ -30,6 +30,7 @@ export default {
     '@nuxt/typescript-build',
     '@nuxtjs/composition-api/module',
     '@nuxtjs/tailwindcss',
+    'nuxt-typed-vuex',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

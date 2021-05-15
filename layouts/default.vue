@@ -1,5 +1,6 @@
 <template>
   <div class="app">
+    <button @click="test">TEST!!</button>
     <header class="app-header">
       <div class="app-logo">
         <img src="/images/logo.svg" />
@@ -38,7 +39,7 @@ import {
 
 export default defineComponent({
   setup() {
-    const { $maps } = useContext()
+    const { app, $maps } = useContext()
     const router = useRouter()
     const citySearch = ref<HTMLInputElement | null>(null)
 
@@ -65,7 +66,9 @@ export default defineComponent({
       })
     }
 
-    return { citySearch, changed }
+    const test = app.$accessor.auth.counterUp
+
+    return { citySearch, changed, test }
   },
   head: {},
 })
